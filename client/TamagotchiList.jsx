@@ -12,9 +12,12 @@ class TamagotchiList extends Component {
     }
 
     createTamagotchi() {
+        const name = document.getElementById('newPet').value
+        console.log(name);
+        if(!name) console.log('no name!');
         fetch('http://localhost:3000/tamagotchi', {
             method: 'POST',
-            body: JSON.stringify({name: document.getElementById('newPet')}),
+            body: JSON.stringify({name: name}),
             headers: {'Content-type': 'application/json; charset=UTF-8'}
         }) //ask server to serve up all tamas from db
           .then((data) => data.json())
@@ -52,10 +55,10 @@ class TamagotchiList extends Component {
         console.log("state: ", this.state.tamagotchis);
         return (
             <div>
-                <form style={styles.container} onSubmit={this.createTamagotchi}>
+                <div style={styles.container}>
                     <input type='text' id='newPet' placeholder='Name Your New Pet' />
-                    <button type='submit'> Create My Baby Tamagotchi! </button>
-                </form>
+                    <button type='submit' onClick={() => this.createTamagotchi()}> Create My Baby Tamagotchi! </button>
+                </div>
                 <div style={styles.container}>
                     
                     {this.state.tamagotchis.map((tamagotchi, index) =>

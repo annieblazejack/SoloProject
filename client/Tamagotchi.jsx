@@ -1,29 +1,94 @@
 import React from 'react';
 
 const Tamagotchi = (props) => {
-    const { _id, name, birthday, hunger, lastFed, humor, lastSong, wisdom, lifeStage, onReqUpdate } = props
+    const { _id, name, birthday, hunger, lastFed, humor, lastSong, wisdom, onReqUpdate } = props
 
-    const fontSizes = ['10em', '13em', '16em'];
+    let hunger1 = hunger;
+    let humor1 = humor;
+    let lifeStage;
+
+    const fontSizes = ['9em', '13em', '17em'];
     const fontWeights = ['Thin', 'ExtraLight', 'Light', 'Regular', 'Medium', 'SemiBold', 'Bold'];
+    const fontFamilies = ['Verdana', 'Arial', 'Courier', 'Times', 'Georgia', 'Trebuchet-MS'];
 
     let fontSize;
     let fontWeight;
+    let fontFamily;
+    let fontStyle = 'normal';
 
-    //calculate Tamagotchi age
-    const age = Date.now() - birthday;
-    //console.log(age);
 
-    if (hunger < 20) {fontWeight = fontWeights[0]}
-    else if (hunger < 40) {fontWeight = fontWeights[1]}
-    else if (hunger < 60) {fontWeight = fontWeights[2]}
-    else if (hunger < 80) {fontWeight = fontWeights[3]}
-    else if (hunger < 100) {fontWeight = fontWeights[4]}
-    else if (hunger < 120) {fontWeight = fontWeights[5]}
+   const calculateStats = () => {
+        hunger1 = Math.floor((Date.now() - lastFed)/600000);
+        console.log(hunger1)
+        humor1 = 150-Math.floor((Date.now() - lastSong)/600000);
+        console.log(humor1)
+        const stage = Math.floor((Date.now() - birthday)/518400000);
+        const lifeStages = ['baby', 'kid', 'teen', 'adult', 'old creature']
+        lifeStage = lifeStages[stage];
+    };
+
+    calculateStats();
+
+
+    if (hunger1 < 20) {fontWeight = fontWeights[0]}
+    else if (hunger1 < 40) {fontWeight = fontWeights[1]}
+    else if (hunger1 < 60) {fontWeight = fontWeights[2]}
+    else if (hunger1 < 80) {fontWeight = fontWeights[3]}
+    else if (hunger1 < 100) {fontWeight = fontWeights[4]}
+    else if (hunger1 < 120) {fontWeight = fontWeights[5]}
     else {fontWeight = fontWeights[6]};
 
-    if (humor < 50) {fontSize = fontSizes[0]} 
-    else if (humor < 100) {fontSize = fontSizes[1]} 
+    if (humor1 < 50) {fontSize = fontSizes[0]} 
+    else if (humor1 < 100) {fontSize = fontSizes[1]} 
     else {fontSize = fontSizes[2]}; 
+
+    if (lifeStage === 'baby') {fontFamily = fontFamilies[0]}
+    else if (lifeStage === 'kid') {fontFamily = fontFamilies[0]}
+    else if (lifeStage === 'teen') {fontFamily = fontFamilies[0]}
+    else if (lifeStage === 'adult') {fontFamily = fontFamilies[0]}
+    else if (lifeStage === 'old creature') {fontFamily = fontFamilies[0]};
+
+    const italicShake = () => {
+        setInterval(() => {
+            if (fontStyle = 'italic') {
+                fontStyle = 'normal'
+                return fontStyle;
+            }
+            else if (fontStyle = 'normal') {
+                fontStyle = 'italic';
+                return fontStyle;
+            } 
+        }, 500);
+    }
+
+    italicShake();
+
+    const styles = {
+        container: {
+          border: '1px black solid',
+          minWidth: '25%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '2%',
+    
+        },
+        h2: {
+            fontFamily: `${fontFamily}`,
+            fontSize: `${fontSize}` ,
+            fontWeight: `${fontWeight}`,
+            fontStyle: `${fontStyle}`,
+            margin: '1%'
+        },
+        h3: {
+            fontFamily: 'Arial',
+            fontSize: '2em',
+            margin: '1%'
+        },
+        p: {
+            fontSize: '.8em',
+        } 
+      };
 
     //Function to execute when user clicks feed button
     const feed = () => {
@@ -68,34 +133,17 @@ const Tamagotchi = (props) => {
     return <div style={styles.container} className="nest">
             <h2 style={styles.h2}>Ü</h2>
             <h3 style={styles.h3}> {name} </h3>
-            <p> Wisdom: {wisdom} </p>
-            <p> Hunger: {hunger} </p>
-            <p> Humor: {humor} </p>
-            <p> Life Stage: {lifeStage} </p>
-
-            <button onClick={() => feed()}>Feed</button>
-            <button onClick={() => sing()}>Sing A Lullaby</button>
+            <p> Hunger: {hunger1} <br />
+            Humor: {humor1} <br />
+            Life Stage: {lifeStage} </p>
+            <span>
+                <button onClick={() => feed()}> Feed </button>
+                <button onClick={() => sing()}>Sing A Lullaby</button>
+            </span>
           </div>
 } 
 
-const styles = {
-    container: {
-      border: '1px black solid',
-      minWidth: '30%',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
 
-    },
-    h2: {
-        fontFamily: 'Arial',
-        fontSize: '10em',
-    },
-    h3: {
-        fontFamily: 'Arial',
-        fontSize: '2em',
-    },
-  };
 
 
 export default Tamagotchi;

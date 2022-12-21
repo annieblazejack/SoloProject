@@ -8,7 +8,7 @@ const controller = {};
 
 controller.createTamagotchi = async (req, res, next) => {
     //get name from req.body somewhere
-    //console.log(req.body);
+    console.log('inside createTama controller: ', req.body);
     const { name } = req.body;
     console.log(name);
     const newTamagotchi = await Tamagotchi.create({ name: name })
@@ -20,9 +20,10 @@ controller.createTamagotchi = async (req, res, next) => {
 }
 
 controller.getTamagotchis = async (req, res, next) => {
-    console.log('inside get Tamas controller')
+    //console.log('inside get Tamas controller')
     const tamagotchis = await Tamagotchi.find({});
     console.log(tamagotchis)
+    const now = Date.now();
     res.locals.tamagotchis = tamagotchis;
     //console.log('updated res.locals')
     return next();
@@ -30,10 +31,10 @@ controller.getTamagotchis = async (req, res, next) => {
 
 controller.feedTamagotchi = async (req, res, next) => {
     try {
-        console.log('inside feed controller', req.body)
+        //console.log('inside feed controller', req.body)
         const { _id } = req.body
         const tamagotchi = await Tamagotchi.findOneAndUpdate({ _id }, {hunger: 0, lastFed: Date.now()}, {useFindAndModify: false, new: true});
-        console.log("updated Tamagotchi: ", tamagotchi);
+        //console.log("updated Tamagotchi: ", tamagotchi);
         res.locals.fedTamagotchi = tamagotchi;
         //console.log('updated res.locals')
         return next();
