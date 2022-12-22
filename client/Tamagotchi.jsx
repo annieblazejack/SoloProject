@@ -20,9 +20,9 @@ const Tamagotchi = (props) => {
     if (isHovered) {
       let localIsItalic = isItalic;
       const interval = setInterval(() => {
-          localIsItalic = !localIsItalic;
-          setIsItalic(localIsItalic);
-        }, 500);
+        localIsItalic = !localIsItalic;
+        setIsItalic(localIsItalic);
+      }, 500);
       return () => {
         setIsItalic(false);
         clearInterval(interval);
@@ -35,27 +35,19 @@ const Tamagotchi = (props) => {
   let lifeStage;
 
   const fontSizes = ["9em", "13em", "17em"];
-  const fontWeights = [
-    "Thin",
-    "ExtraLight",
-    "Light",
-    "Regular",
-    "Medium",
-    "SemiBold",
-    "Bold",
-  ];
-  const fontFamilies = [
-    "Verdana",
-    "Arial",
-    "Courier",
-    "Times",
-    "Georgia",
-    "Trebuchet-MS",
+  
+  const colors = [
+    "rgb(36, 36, 36)",
+    "rgb(73, 73, 73)",
+    "rgb(109, 109, 109)",
+    "rgb(145, 145, 145)",
+    "rgb(181, 181, 181)",
+    "rgb(220, 220, 220)",
   ];
 
   let fontSize;
   let fontWeight;
-  let fontFamily;
+  let color;
   let fontStyle = "normal";
 
   hunger1 = Math.floor((Date.now() - lastFed) / 600000);
@@ -67,19 +59,19 @@ const Tamagotchi = (props) => {
   lifeStage = lifeStages[stage];
 
   if (hunger1 < 20) {
-    fontWeight = fontWeights[0];
+    fontWeight = "700";
   } else if (hunger1 < 40) {
-    fontWeight = fontWeights[1];
+    fontWeight = "600";
   } else if (hunger1 < 60) {
-    fontWeight = fontWeights[2];
+    fontWeight = "500";
   } else if (hunger1 < 80) {
-    fontWeight = fontWeights[3];
+    fontWeight = "400";
   } else if (hunger1 < 100) {
-    fontWeight = fontWeights[4];
+    fontWeight = "300";
   } else if (hunger1 < 120) {
-    fontWeight = fontWeights[5];
+    fontWeight = "200";
   } else {
-    fontWeight = fontWeights[6];
+    fontWeight = "100";
   }
 
   if (humor1 < 50) {
@@ -91,15 +83,15 @@ const Tamagotchi = (props) => {
   }
 
   if (lifeStage === "baby") {
-    fontFamily = fontFamilies[0];
+    color=colors[0];
   } else if (lifeStage === "kid") {
-    fontFamily = fontFamilies[0];
+    color=colors[0];
   } else if (lifeStage === "teen") {
-    fontFamily = fontFamilies[0];
+    color=colors[0];
   } else if (lifeStage === "adult") {
-    fontFamily = fontFamilies[0];
+    color=colors[0];
   } else if (lifeStage === "old creature") {
-    fontFamily = fontFamilies[0];
+    color=colors[0];
   }
 
   const italicShake = () => {
@@ -121,12 +113,13 @@ const Tamagotchi = (props) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      padding: "2%",
+      padding: "1%",
     },
     h2: {
-      fontFamily: `${fontFamily}`,
+      fontFamily: "MuseoModerno",
       fontSize: `${fontSize}`,
       fontWeight: `${fontWeight}`,
+      color: `${color}`,
       fontStyle: isItalic ? "italic" : "normal",
       margin: "1%",
     },
@@ -179,19 +172,37 @@ const Tamagotchi = (props) => {
       });
   };
 
+  const del = () => {
+    fetch("http://localhost:3000/tamagotchi", {
+      method: "DELETE",
+      body: JSON.stringify({ _id: _id }),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    })
+    .then((data) => data.json())
+    .then((data) => {
+      onReqUpdate();
+    })
+    .catch((error) => {
+      console.log("Error:", error);
+    });
+  }
+
   return (
     <div style={styles.container} className="nest">
-      <h2
-        style={styles.h2}
-        onMouseEnter={() => {
-          setIsHovered(true);
-        }}
-        onMouseLeave={() => {
-          setIsHovered(false);
-        }}
-      >
-        Ü
-      </h2>
+      <span className="font-link">
+        <h2
+          style={styles.h2}
+          onMouseEnter={() => {
+            setIsHovered(true);
+          }}
+          onMouseLeave={() => {
+            setIsHovered(false);
+          }}
+        >
+          ü
+        </h2>
+      </span>
+
       <h3 style={styles.h3}> {name} </h3>
       <p>
         {" "}
@@ -202,6 +213,7 @@ const Tamagotchi = (props) => {
       <span>
         <button onClick={() => feed()}> Feed </button>
         <button onClick={() => sing()}>Sing A Lullaby</button>
+        <button onClick={() => del()}>Release Into The Wild</button>
       </span>
     </div>
   );

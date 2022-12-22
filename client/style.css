@@ -1,11 +1,10 @@
-.App {
-    margin: 1rem;
-    font-family: 'MuseoModerno', cursive;
-  }
-
   h1 {
     font-family: 'Arial', sans-serif;
     font-size: 5em;
+  }
+
+  h2 {
+    font-family: 'MuseoModerno', cursive;
   }
 
   button {
@@ -17,11 +16,11 @@
   border-radius: 5px;
   }
 
-  #nest {
+  .nest {
     background-color: rgb(235, 233, 233);
     border: 2px solid lightgray;
-    padding: 3em;
-    margin: 2em;
+    padding: 2%;
+    margin: 2%;
     border-radius: 30px;
   }
 
