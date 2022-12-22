@@ -109,7 +109,7 @@ const Tamagotchi = (props) => {
   const styles = {
     container: {
       border: "1px black solid",
-      minWidth: "25%",
+      minWidth: "15%",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",

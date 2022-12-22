@@ -87,14 +87,14 @@ class TamagotchiList extends Component {
 
 const styles = {
   container: {
-    border: "1px black solid",
+    borderTop: "1px solid black",
     width: "100%",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
-    padding: "10px",
+    padding: "1%",
   },
 };
 
